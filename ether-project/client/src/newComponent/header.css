@@ -1,0 +1,87 @@
+.header-picture {
+  width: 100%;
+  opacity: inherit;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1) 85%,
+    transparent 100%
+  );
+}
+
+.plane-picture {
+  z-index: 1;
+  width: 80%;
+  margin-top: 20%;
+  margin-left: 50%;
+  position: absolute;
+  animation-name: plane;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.title {
+  margin-top: 100px;
+  position: absolute;
+}
+
+.ethLogo {
+  font-size: small;
+}
+
+.cloud1 {
+  z-index: 1;
+  width: 30%;
+  margin-top: 9%;
+  margin-left: 1%;
+  position: absolute;
+}
+.cloud2 {
+  width: 45%;
+  margin-top: -2%;
+  margin-left: 14%;
+  position: absolute;
+}
+.cloud3 {
+  width: 40%;
+  margin-top: 1%;
+  margin-left: 70%;
+  position: absolute;
+}
+.cloud4 {
+  z-index: 1;
+  width: 30%;
+  margin-top: 5%;
+  margin-left: 60%;
+  position: absolute;
+}
+.header {
+  z-index: 0;
+  width: 100%;
+  position: absolute;
+  margin-top: 30%;
+  text-align: center;
+  color: white;
+  font-size: 10rem;
+  margin: 0;
+}
+
+/* animations  */
+
+@keyframes plane {
+  from {
+    left: -500px;
+    top: 100px;
+  }
+  to {
+    left: 50px;
+    top: 0px;
+  }
+}
+
+/* body {
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  place-items: center;
+} */
