@@ -17,6 +17,7 @@ contract SimpleStorage {
         address payable rentMan;
         string description;
         bool paid;
+        bool deletePlace;
     }
 
     mapping(uint256 => Rent) public allPlaces;
@@ -34,6 +35,18 @@ contract SimpleStorage {
         address _owner = msg.sender;
         allPlaces[_id].rentMan = payable(_owner);
         allPlaces[_id].rented = !allPlaces[_id].rented;
+    }
+
+    function deletePlace(uint256 _id) public {
+        allPlaces[_id].deletePlace = !allPlaces[_id].deletePlace;
+    }
+
+    function resetAll() public {
+        for (uint256 i = 1; i <= placeCount; i++) {
+            allPlaces[i].rented = false;
+            allPlaces[i].paid = false;
+            allPlaces[i].rentMan = allPlaces[i].creator;
+        }
     }
 
     function rentAndPay(uint256 _id) public payable {
@@ -64,6 +77,7 @@ contract SimpleStorage {
             false,
             _creator,
             _description,
+            false,
             false
         );
         emit placeCreated(

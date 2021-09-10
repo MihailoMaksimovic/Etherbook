@@ -3,6 +3,7 @@ import "./card.css";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { ReactComponent as ETHlogo } from "../images/ethereum-brands.svg";
+import { Button } from "@material-ui/core";
 
 //kartica za mesto koja sam "ja" izbacio
 const useStyles = makeStyles({
@@ -14,8 +15,8 @@ const useStyles = makeStyles({
 export default function AllPlacesCard(props) {
   const classes = useStyles();
 
-  const changeRent = () => {
-    props.changeRentFunction(props.id);
+  const deletePlace = () => {
+    props.deletePlaceFunction(props.id);
   };
 
   return (
@@ -44,13 +45,25 @@ export default function AllPlacesCard(props) {
                 {" "}
                 BUSY
               </span>
-            ) : (
-              <span style={{ marginRight: "15px" }} class="tag tag-teal">
+            ) : props.deletePlace ? (
+              <Button
+                onClick={deletePlace}
+                style={{ marginRight: "15px" }}
+                class="tag tag-green"
+              >
                 {" "}
-                FREE
-              </span>
+                ALLOW FOR RENT
+              </Button>
+            ) : (
+              <Button
+                onClick={deletePlace}
+                style={{ marginRight: "15px" }}
+                class="tag tag-red"
+              >
+                {" "}
+                DELETE
+              </Button>
             )}
-
             {props.price * 1e-18}
             {"   "}
             <div style={{ display: "flex" }}>
@@ -104,7 +117,11 @@ export default function AllPlacesCard(props) {
               </div>
             ) : (
               <button
-                style={{ width: "100%", background: "red", marginTop: "15px" }}
+                style={
+                  props.deletePlace
+                    ? { visibility: "hidden" }
+                    : { width: "100%", background: "red", marginTop: "15px" }
+                }
                 type="button"
                 class="btn btn-primary"
               >

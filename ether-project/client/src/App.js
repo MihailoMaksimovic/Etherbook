@@ -108,6 +108,15 @@ class App extends Component {
     window.location.reload();
   };
 
+  deletePlaceFunction = async (_id) => {
+    this.setState({ loading: true });
+    const instance = await this.state.contract.methods
+      .deletePlace(_id)
+      .send({ from: this.state.account.toString() });
+    this.setState({ loading: false });
+    window.location.reload();
+  };
+
   rentAndPay = async (_id, _price) => {
     this.setState({ loading: true });
     const instance = await this.state.contract.methods.rentAndPay(_id).send({
@@ -133,6 +142,7 @@ class App extends Component {
       const rentMan = item[7];
       const description = item[8];
       const paid = item[9];
+      const deletePlace = item[10];
 
       // this.setState({
       //   items: [...this.state.items, ...[taskId, taskContent, taskComplited]],
@@ -151,6 +161,7 @@ class App extends Component {
             rentMan,
             description,
             paid,
+            deletePlace,
           ],
         ]),
       });
@@ -273,7 +284,8 @@ class App extends Component {
                     !item[6] &&
                     !this.state.statusFlag &&
                     item[4].includes(this.state.searchState.toLowerCase()) &&
-                    item[3].includes(this.state.searchLocation.toLowerCase())
+                    item[3].includes(this.state.searchLocation.toLowerCase()) &&
+                    !item[10]
                   ) {
                     return (
                       <div key={item[0]}>
@@ -288,6 +300,7 @@ class App extends Component {
                           rentMan={item[7]}
                           description={item[8]}
                           paid={item[9]}
+                          deletePlace={item[10]}
                           changeRentFunction={this.changeRent}
                         />
                       </div>
@@ -312,6 +325,8 @@ class App extends Component {
                           rentMan={item[7]}
                           description={item[8]}
                           paid={item[9]}
+                          deletePlace={item[10]}
+                          deletePlaceFunction={this.deletePlaceFunction}
                         />
                       </div>
                     );
@@ -320,7 +335,8 @@ class App extends Component {
                     item[7].toString() == this.state.account.toString() &&
                     item[1].toString() != this.state.account.toString() &&
                     item[4].includes(this.state.searchState.toLowerCase()) &&
-                    item[3].includes(this.state.searchLocation.toLowerCase())
+                    item[3].includes(this.state.searchLocation.toLowerCase()) &&
+                    !item[10]
                   ) {
                     return (
                       <div key={item[0]}>
@@ -335,6 +351,7 @@ class App extends Component {
                           rentMan={item[7]}
                           description={item[8]}
                           paid={item[9]}
+                          deletePlace={item[10]}
                           rentAndPayFunction={this.rentAndPay}
                         />
                       </div>

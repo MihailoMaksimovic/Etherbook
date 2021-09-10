@@ -48,6 +48,16 @@
   background-color: #cd5b9f;
 }
 
+.tag-red {
+  background-color: red;
+  border-width: 0;
+}
+
+.tag-green {
+  background-color: green;
+  border-width: 0;
+}
+
 .card-body p {
   font-size: 13px;
   margin: 0 0 40px;
