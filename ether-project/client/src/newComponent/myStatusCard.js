@@ -40,10 +40,17 @@ export default function AllPlacesCard(props) {
               justifyContent: "center",
             }}
           >
-            <span style={{ marginRight: "15px" }} class="tag tag-teal">
-              {" "}
-              FREE
-            </span>
+            {props.paid ? (
+              <span style={{ marginRight: "15px" }} class="tag tag-teal">
+                {" "}
+                BUSY
+              </span>
+            ) : (
+              <span style={{ marginRight: "15px" }} class="tag tag-teal">
+                {" "}
+                FREE
+              </span>
+            )}
             {props.price * 1e-18}
             {"   "}
             <div style={{ display: "flex" }}>
