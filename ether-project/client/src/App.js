@@ -36,6 +36,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import ipfs from "./ipfs";
 import Loader from "./newComponent/loadingSpinner";
 
+const { getEthPriceNow, getEthPriceHistorical } = require("get-eth-price");
+
 class App extends Component {
   constructor() {
     super();
@@ -60,6 +62,7 @@ class App extends Component {
       searchState: "",
       searchLocation: "",
       loading: false,
+      USDPrice: null,
     };
   }
 
@@ -91,6 +94,8 @@ class App extends Component {
       this.setState({ web3: web3, contract: instance });
 
       await this.getAllPlaces();
+      // this.getEthPrice();
+      this.setEthPrice();
     } catch (error) {
       alert(
         `Failed to load web3, accounts, or contract. Check console for details.`
@@ -118,11 +123,23 @@ class App extends Component {
   };
 
   rentAndPay = async (_id, _price) => {
+    let priceETH = _price / this.state.USDPrice;
     this.setState({ loading: true });
     const instance = await this.state.contract.methods.rentAndPay(_id).send({
       from: this.state.account.toString(),
-      value: this.state.web3.utils.toWei(_price.toString(), "Wei"),
+      value: this.state.web3.utils.toWei(priceETH.toString(), "Ether"),
     });
+    this.setState({ loading: false });
+    window.location.reload();
+  };
+
+  changeValue = async (_id, _price, _description) => {
+    this.setState({ loading: true });
+    const instance = await this.state.contract.methods
+      .changeValue(_id, _price, _description)
+      .send({
+        from: this.state.account.toString(),
+      });
     this.setState({ loading: false });
     window.location.reload();
   };
@@ -190,6 +207,8 @@ class App extends Component {
     this.setState({ state: e.target.value });
   };
   handleChangePrice = (e) => {
+    // let numberWEI =
+    //   (e.target.value * 1000000000000000000) / this.state.USDPrice;
     this.setState({ price: e.target.value });
   };
 
@@ -212,11 +231,13 @@ class App extends Component {
       this.state.state == null ||
       this.state.price == null ||
       this.state.description == null ||
-      this.state.imgs == null
+      this.state.imgs == null ||
+      !((this.state.price * 1) % 1 === 0)
     ) {
       this.setState({ checkFill: false });
     } else {
       this.setState({ loading: true });
+
       await ipfs.files.add(this.state.buffer, async (err, result) => {
         this.setState({ ipfsHash: result[0].hash });
 
@@ -226,7 +247,7 @@ class App extends Component {
             this.state.ipfsHash.toString(),
             this.state.location.toString().toLowerCase(),
             this.state.state.toString().toLowerCase(),
-            this.state.price,
+            this.state.price.toString(),
             this.state.description.toString()
           )
           .send({ from: this.state.account.toString() });
@@ -237,6 +258,18 @@ class App extends Component {
         window.location.reload();
       });
     }
+  };
+
+  //dinamicna vrednost preuzeta sa sajta
+  getEthPrice = () => {
+    getEthPriceNow().then((data) => {
+      this.setState({ USDPrice: Object.values(data)[0]["ETH"]["USD"] });
+    });
+  };
+
+  //zacrtana vrednost
+  setEthPrice = () => {
+    this.setState({ USDPrice: "3437.38" });
   };
 
   render() {
@@ -265,8 +298,6 @@ class App extends Component {
       ],
     };
 
-    console.log(this.state.searchLocation);
-    console.log(this.state.searchState);
     return (
       <div style={{ height: "100%" }}>
         {this.state.loading ? (
@@ -301,6 +332,7 @@ class App extends Component {
                           description={item[8]}
                           paid={item[9]}
                           deletePlace={item[10]}
+                          usdPriceValue={this.state.USDPrice}
                           changeRentFunction={this.changeRent}
                         />
                       </div>
@@ -326,7 +358,9 @@ class App extends Component {
                           description={item[8]}
                           paid={item[9]}
                           deletePlace={item[10]}
+                          usdPriceValue={this.state.USDPrice}
                           deletePlaceFunction={this.deletePlaceFunction}
+                          changeValueFunction={this.changeValue}
                         />
                       </div>
                     );
@@ -352,6 +386,7 @@ class App extends Component {
                           description={item[8]}
                           paid={item[9]}
                           deletePlace={item[10]}
+                          usdPriceValue={this.state.USDPrice}
                           rentAndPayFunction={this.rentAndPay}
                         />
                       </div>
@@ -513,16 +548,6 @@ class App extends Component {
 
                 <form>
                   <TextField
-                    onChange={this.handleChangeLocation}
-                    autoFocus
-                    margin="dense"
-                    id="location"
-                    label="Location"
-                    type="text"
-                    fullWidth
-                    required
-                  />
-                  <TextField
                     onChange={this.handleChangeState}
                     autoFocus
                     margin="dense"
@@ -531,7 +556,20 @@ class App extends Component {
                     type="text"
                     fullWidth
                     required
+                    inputProps={{ maxLength: "22" }}
                   />
+                  <TextField
+                    onChange={this.handleChangeLocation}
+                    autoFocus
+                    margin="dense"
+                    id="location"
+                    label="Location"
+                    type="text"
+                    fullWidth
+                    required
+                    inputProps={{ maxLength: "55" }}
+                  />
+
                   <textarea
                     style={{ width: "100%" }}
                     placeholder="description"
@@ -539,7 +577,7 @@ class App extends Component {
                     name="description"
                     cols="40"
                     rows="5"
-                    maxlength="400"
+                    maxLength="400"
                   ></textarea>
 
                   <div style={{ display: "flex" }}>
@@ -548,9 +586,10 @@ class App extends Component {
                       autoFocus
                       margin="dense"
                       id="price"
-                      label="Price in WEI"
+                      label="Price in USD"
                       type="number"
                       required
+                      inputProps={{ pattern: "d*", step: ".01", min: "0" }}
                     />
                     <Button
                       style={{
@@ -562,9 +601,8 @@ class App extends Component {
                       color="primary"
                       startIcon={<AttachMoneyIcon />}
                     >
-                      price in ETH: {this.state.price * 1e-18}
+                      price in ETH: {this.state.price / this.state.USDPrice}
                       <br />
-                      price in USD: {this.state.price * 1e-18 * 3431.94}
                     </Button>
                   </div>
                 </form>
@@ -579,7 +617,8 @@ class App extends Component {
                   className="alert"
                   severity="error"
                 >
-                  Please fill out all fields!
+                  Please fill out all fields, and make sure price is a whole
+                  number!
                 </Alert>
                 <Button onClick={this.handleClose} color="primary">
                   Cancel

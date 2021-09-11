@@ -94,13 +94,8 @@ export default function CustomizedDialogs(props) {
           style={{ display: "flex", justifyContent: "space-between" }}
         >
           <p style={{ fontSize: "20px" }}>
-            {" "}
-            price : {props.price * 1e-18} ETH{" "}
-            <ETHlogo
-              fill="red"
-              stroke="green"
-              style={{ marginBottom: "3px", height: "12px" }}
-            />{" "}
+            price :{props.price}USD
+            {"   "}
           </p>
 
           <Button autoFocus onClick={handleClose} color="primary">

@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/styles": "^4.11.4",
     "bootstrap": "^4.3.1",
+    "get-eth-price": "^1.0.0",
     "ipfs-api": "^26.1.2",
     "react": "16.11.0",
     "react-bootstrap": "^1.6.1",

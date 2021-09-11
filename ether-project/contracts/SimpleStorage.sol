@@ -58,6 +58,15 @@ contract SimpleStorage {
         allPlaces[_id].paid = true;
     }
 
+    function changeValue(
+        uint256 _id,
+        uint256 _price,
+        string memory _description
+    ) public {
+        allPlaces[_id].description = _description;
+        allPlaces[_id].price = _price;
+    }
+
     function setPlace(
         address payable _creator,
         string memory _image,

@@ -4,7 +4,7 @@ import "./card.css";
 import { makeStyles } from "@material-ui/core/styles";
 import { ReactComponent as ETHlogo } from "../images/ethereum-brands.svg";
 import { Button } from "@material-ui/core";
-
+import Change from "./change";
 //kartica za mesto koja sam "ja" izbacio
 const useStyles = makeStyles({
   avatar: {
@@ -17,6 +17,10 @@ export default function AllPlacesCard(props) {
 
   const deletePlace = () => {
     props.deletePlaceFunction(props.id);
+  };
+
+  const changeValue = (_id, _price, _description) => {
+    props.changeValueFunction(_id, _price, _description);
   };
 
   return (
@@ -46,37 +50,46 @@ export default function AllPlacesCard(props) {
                 BUSY
               </span>
             ) : props.deletePlace ? (
-              <Button
-                onClick={deletePlace}
-                style={{ marginRight: "15px" }}
-                class="tag tag-green"
-              >
-                {" "}
-                ALLOW FOR RENT
-              </Button>
+              <div>
+                <Button
+                  onClick={deletePlace}
+                  style={{ marginRight: "2px", marginBottom: "20px" }}
+                  class="tag tag-green"
+                >
+                  {" "}
+                  ALLOW FOR RENT
+                </Button>
+                <Change
+                  id={props.id}
+                  creator={props.creator}
+                  image={props.image}
+                  location={props.location}
+                  state={props.state}
+                  price={props.price}
+                  rented={props.rented}
+                  rentMan={props.rentMan}
+                  description={props.description}
+                  usdPriceValue={props.usdPriceValue}
+                  changeValueFunction={changeValue}
+                />
+              </div>
             ) : (
-              <Button
-                onClick={deletePlace}
-                style={{ marginRight: "15px" }}
-                class="tag tag-red"
-              >
-                {" "}
-                DELETE
-              </Button>
+              <div>
+                <Button
+                  onClick={deletePlace}
+                  style={{ marginRight: "2px" }}
+                  class="tag tag-red"
+                >
+                  {" "}
+                  DELETE
+                </Button>
+              </div>
             )}
-            {props.price * 1e-18}
+            {props.price}
             {"   "}
-            <div style={{ display: "flex" }}>
-              {" "}
-              ETH
-              <ETHlogo
-                fill="red"
-                stroke="green"
-                style={{ marginTop: "4px", color: "#555a61", height: "15px" }}
-              />
-            </div>
+            <div style={{ display: "flex" }}> USD</div>
           </div>
-          <h4 style={{ height: "80px", padding: "10px" }}>
+          <h4 style={{ marginTop: "10px" }}>
             {props.state} - {props.location}
           </h4>
           <div
@@ -97,7 +110,11 @@ export default function AllPlacesCard(props) {
               >
                 {props.paid ? (
                   <button
-                    style={{ background: "green", height: "60px" }}
+                    style={{
+                      background: "green",
+                      height: "60px",
+                      marginTop: "20px",
+                    }}
                     type="button"
                     class="btn btn-primary"
                   >
@@ -106,7 +123,11 @@ export default function AllPlacesCard(props) {
                   </button>
                 ) : (
                   <button
-                    style={{ background: "#ff9900", height: "60px" }}
+                    style={{
+                      background: "#ff9900",
+                      height: "60px",
+                      marginTop: "20px",
+                    }}
                     type="button"
                     class="btn btn-primary"
                   >
@@ -116,17 +137,42 @@ export default function AllPlacesCard(props) {
                 )}
               </div>
             ) : (
-              <button
+              <div
                 style={
                   props.deletePlace
                     ? { visibility: "hidden" }
-                    : { width: "100%", background: "red", marginTop: "15px" }
+                    : {
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: "40px",
+                      }
                 }
-                type="button"
-                class="btn btn-primary"
               >
-                NOT rented
-              </button>
+                <button
+                  style={{
+                    width: "100%",
+                    background: "red",
+                    marginRight: "20px",
+                  }}
+                  type="button"
+                  class="btn btn-primary"
+                >
+                  NOT rented
+                </button>
+                <Change
+                  id={props.id}
+                  creator={props.creator}
+                  image={props.image}
+                  location={props.location}
+                  state={props.state}
+                  price={props.price}
+                  rented={props.rented}
+                  rentMan={props.rentMan}
+                  description={props.description}
+                  usdPriceValue={props.usdPriceValue}
+                  changeValueFunction={changeValue}
+                />
+              </div>
             )}
           </div>
           <div class="user">

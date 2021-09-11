@@ -44,17 +44,8 @@ export default function AllPlacesCard(props) {
               {" "}
               FREE
             </span>
-            {props.price * 1e-18}
-            {"   "}
-            <div style={{ display: "flex" }}>
-              {" "}
-              ETH
-              <ETHlogo
-                fill="red"
-                stroke="green"
-                style={{ marginTop: "4px", color: "#555a61", height: "15px" }}
-              />
-            </div>
+            {props.price}
+            <div style={{ display: "flex" }}> USD</div>
           </div>
           <h4 style={{ height: "80px", padding: "10px" }}>
             {props.state} - {props.location}
@@ -86,6 +77,7 @@ export default function AllPlacesCard(props) {
                 rented={props.rented}
                 rentMan={props.rentMan}
                 description={props.description}
+                usdPriceValue={props.usdPriceValue}
               />
             </div>
           </div>

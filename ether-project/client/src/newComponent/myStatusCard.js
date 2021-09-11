@@ -51,17 +51,10 @@ export default function AllPlacesCard(props) {
                 FREE
               </span>
             )}
-            {props.price * 1e-18}
+
+            {props.price}
             {"   "}
-            <div style={{ display: "flex" }}>
-              {" "}
-              ETH
-              <ETHlogo
-                fill="red"
-                stroke="green"
-                style={{ marginTop: "4px", color: "#555a61", height: "15px" }}
-              />
-            </div>
+            <div style={{ display: "flex" }}> USD</div>
           </div>
           <h4 style={{ height: "80px", padding: "10px" }}>
             {props.state} - {props.location}
@@ -69,7 +62,7 @@ export default function AllPlacesCard(props) {
 
           {props.paid ? (
             <button
-              style={{ width: "100%" }}
+              style={{ width: "100%", marginTop: "15px" }}
               type="button"
               class="btn btn-success"
             >
@@ -89,7 +82,7 @@ export default function AllPlacesCard(props) {
                 type="button"
                 class="btn btn-primary"
               >
-                PAY {props.price * 1e-18}{" "}
+                PAY {props.price / props.usdPriceValue}{" "}
                 <ETHlogo
                   fill="red"
                   stroke="green"
