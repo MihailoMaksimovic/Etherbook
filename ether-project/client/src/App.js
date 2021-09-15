@@ -279,7 +279,7 @@ class App extends Component {
       arrows: true,
       slidesToShow: 4,
       slidesToScroll: 3,
-      dots: true,
+      dots: false,
       responsive: [
         {
           breakpoint: 960,

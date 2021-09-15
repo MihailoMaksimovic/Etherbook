@@ -19,6 +19,8 @@ export default function AllPlacesCard(props) {
     props.rentAndPayFunction(props.id, props.price);
   };
 
+  console.log(props.rentMan);
+  console.log(props.creator);
   return (
     <div class="container">
       <div class="card">
@@ -93,7 +95,7 @@ export default function AllPlacesCard(props) {
                   }}
                 />
                 to
-                <p style={{ fontSize: "10px" }}> {props.rentMan} </p>
+                <p style={{ fontSize: "10px" }}> {props.creator} </p>
               </button>
             </div>
             // <button type="button" class="btn btn-primary" onClick={rentAndPay}>

@@ -6,6 +6,7 @@
   height: 450px;
 }
 .card {
+  min-height: 500px;
   margin: 10px;
   background-color: #fff;
   border-radius: 10px;

@@ -89,7 +89,7 @@ export default function AllPlacesCard(props) {
             {"   "}
             <div style={{ display: "flex" }}> USD</div>
           </div>
-          <h4 style={{ marginTop: "10px" }}>
+          <h4 style={{ marginTop: "2px" }}>
             {props.state} - {props.location}
           </h4>
           <div
@@ -106,6 +106,8 @@ export default function AllPlacesCard(props) {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  bottom: "70px",
+                  position: "absolute",
                 }}
               >
                 {props.paid ? (
@@ -113,7 +115,7 @@ export default function AllPlacesCard(props) {
                     style={{
                       background: "green",
                       height: "60px",
-                      marginTop: "20px",
+                      marginLeft: "245px",
                     }}
                     type="button"
                     class="btn btn-primary"
@@ -126,7 +128,7 @@ export default function AllPlacesCard(props) {
                     style={{
                       background: "#ff9900",
                       height: "60px",
-                      marginTop: "20px",
+                      marginLeft: "245px",
                     }}
                     type="button"
                     class="btn btn-primary"
@@ -144,7 +146,8 @@ export default function AllPlacesCard(props) {
                     : {
                         display: "flex",
                         flexDirection: "row",
-                        marginTop: "40px",
+                        bottom: "70px",
+                        position: "absolute",
                       }
                 }
               >
@@ -153,6 +156,7 @@ export default function AllPlacesCard(props) {
                     width: "100%",
                     background: "red",
                     marginRight: "20px",
+                    marginLeft: "200px",
                   }}
                   type="button"
                   class="btn btn-primary"
